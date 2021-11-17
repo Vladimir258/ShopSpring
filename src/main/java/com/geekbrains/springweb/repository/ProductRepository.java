@@ -23,12 +23,15 @@ public class ProductRepository {
         ));
     }
 
-    public Product findById(Long id) {
-        return products.stream().filter(p -> p.getId().equals(id)).findFirst()
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-    }
-
     public List<Product> getAllProducts() {
         return Collections.unmodifiableList(products);
+    }
+
+    public void deleteById(Long id) {
+        products.removeIf(p -> p.getId().equals(id));
+    }
+
+    public Product findById(Long id) {
+        return products.stream().filter(p -> p.getId().equals(id)).findFirst().get();
     }
 }
