@@ -27,17 +27,4 @@ public class ProductController {
     public void changePrice(@RequestParam Long productId, @RequestParam Float sale) {
         productService.changePrice(productId, sale);
     }
-
-//    @GetMapping("/products")
-//    public String showProductsPage(Model model) {
-//        model.addAttribute("products", productRepository.getAllProducts());
-//        return "products_page";
-//    }
-
-//    @GetMapping("/products/{id}")
-//    public String showProductPage(Model model, @PathVariable Long id) {
-//        Product product = productRepository.findById(id);
-//        model.addAttribute("product", product);
-//        return "product_info_page";
-//    }
 }

@@ -1,26 +1,32 @@
 package com.geekbrains.springweb.repository;
 
+import com.geekbrains.springweb.dao.ProductDao;
+import com.geekbrains.springweb.dao.ProductDaoImpl;
 import com.geekbrains.springweb.model.Product;
+import com.geekbrains.springweb.utils.SessionFactoryUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Component
 public class ProductRepository {
-    private List<Product> products;
 
+    private List<Product> products;
+    private SessionFactoryUtils sessionFactoryUtils = new SessionFactoryUtils();
     @PostConstruct
     public void init() {
-        products = new ArrayList<>(List.of(
-                new Product(1L, "Monitor", 300F),
-                new Product(2L, "Keyboard", 5F),
-                new Product(3L, "Mouse", 4F),
-                new Product(4L, "Processor", 700F),
-                new Product(5L, "Memory", 200F)
-        ));
+        sessionFactoryUtils.init();
+        try {
+            ProductDao productDao = new ProductDaoImpl(sessionFactoryUtils);
+            products = productDao.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sessionFactoryUtils.shutdown();
+        }
+
     }
 
     public List<Product> getAllProducts() {
